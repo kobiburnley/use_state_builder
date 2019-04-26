@@ -1,14 +1,47 @@
-# use_state_builder
+# UseStateBuilder
 
-A new Flutter package project.
+Builder widget for using state.
 
-## Getting Started
+```dart
+class MyHomePage extends StatelessWidget {
+  final String title;
 
-This project is a starting point for a Dart
-[package](https://flutter.io/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+  MyHomePage({this.title});
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+  @override
+  Widget build(BuildContext context) {
+    return UseStateBuilder(
+      builder: (context, useState) {
+        ValueNotifier<int> counter = useState(0);
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(title),
+          ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'You have pushed the button this many times:',
+                ),
+                Text(
+                  '${counter.value}',
+                  style: Theme.of(context).textTheme.display1,
+                ),
+              ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              counter.value++;
+            },
+            tooltip: 'Increment',
+            child: Icon(Icons.add),
+          ),
+        );
+      },
+    );
+  }
+}
+```
