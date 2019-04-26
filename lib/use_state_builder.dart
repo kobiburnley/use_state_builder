@@ -16,7 +16,7 @@ class UseStateBuilder extends StatefulWidget {
 }
 
 class _UseStateBuilder extends State<UseStateBuilder> {
-  List<ValueNotifier> states = [];
+  List<ValueNotifier> states;
 
   ValueNotifier<T> Function<T>(T initialValue) createUseState() {
     final iterator = states.iterator;
@@ -32,15 +32,17 @@ class _UseStateBuilder extends State<UseStateBuilder> {
     return valueNotifier;
   }
 
-  void initState() {
-    super.initState();
-    widget.builder(context, useStateInit);
-    for (final state in states) {
-      state.addListener(() {
-        setState(() {});
-      });
+  Widget build(BuildContext context) {
+    if (states == null) {
+      states = [];
+      final child = widget.builder(context, useStateInit);
+      for (final state in states) {
+        state.addListener(() {
+          setState(() {});
+        });
+      }
+      return child;
     }
+    return widget.builder(context, createUseState());
   }
-
-  Widget build(BuildContext context) => widget.builder(context, createUseState());
 }
