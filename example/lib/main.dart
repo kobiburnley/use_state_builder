@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:use_state_builder/use_state_builder.dart';
+import 'dart:math' show Random;
 
 void main() => runApp(MyApp());
 
@@ -26,6 +27,7 @@ class MyHomePage extends StatelessWidget {
     return UseStateBuilder(
       builder: (context, useState) {
         ValueNotifier<int> counter = useState(0);
+        ValueNotifier<double> rand = useState(0.0);
 
         return Scaffold(
           appBar: AppBar(
@@ -36,10 +38,11 @@ class MyHomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'You have pushed the button this many times:',
+                  '${counter.value}',
+                  style: Theme.of(context).textTheme.display1,
                 ),
                 Text(
-                  '${counter.value}',
+                  '${rand.value}',
                   style: Theme.of(context).textTheme.display1,
                 ),
               ],
@@ -48,6 +51,7 @@ class MyHomePage extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               counter.value++;
+              rand.value = Random().nextDouble();
             },
             tooltip: 'Increment',
             child: Icon(Icons.add),
