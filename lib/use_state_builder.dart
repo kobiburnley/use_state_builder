@@ -22,11 +22,6 @@ class _UseStateBuilder extends State<UseStateBuilder> {
   void reassemble() {
     super.reassemble();
     prevStates = states;
-    if (prevStates != null) {
-      for (final state in prevStates) {
-        state.removeListener(setStateNoOp);
-      }
-    }
     states = null;
   }
 
@@ -70,6 +65,11 @@ class _UseStateBuilder extends State<UseStateBuilder> {
 
   Widget build(BuildContext context) {
     if (states == null) {
+      if (prevStates != null) {
+        for (final state in prevStates) {
+          state.removeListener(setStateNoOp);
+        }
+      }
       states = [];
       final child = widget.builder(context, useStateInit());
       for (final state in states) {
